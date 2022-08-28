@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+    {% block content  %}
+      <div>
+        <h1>Welcome to the Cafe Database</h1>
+      </div>
+
+      <div class="container">
+        <div><h2>List of Cafes:</h2></div>
+
+        <!--Pagination links-->
+        <div class="text-end">
+          <a href="{{ url_for('index', page=cafes.prev_num) }}" class="btn btn-outline-dark {% if cafes.page == 1 %}disabled{% endif %}">&laquo;</a>
+          <!-- Loop through the number of pages to display a link for each-->
+          {% for page_num in cafes.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+              <!-- Check for the active page and set the link to "Active"-->
+              {% if cafes.page == page_num %}
+              <a href="{{ url_for('index', page=page_num) }}"
+                 class="btn btn-dark">
+                  {{ page_num }}
+              </a>
+              {% else %}
+              <a href="{{ url_for('index', page=page_num) }}"
+                 class="btn btn-outline-dark">
+                  {{ page_num }}
+              </a>
+              {% endif %}
+            {% else %}
+            ...
+            {% endif %}
+          {% endfor %}
+
+          <a href="{{ url_for('index', page=cafes.next_num) }}" class="btn btn-outline-dark {% if cafes.page == cafes.pages %}disabled{% endif %}">&raquo;</a>
+
+        </div>
+
+      <p class="text-end mt-3">
+         Showing page {{ cafes.page }} of {{ cafes.pages }}
+      </p>
+
+        <div>
+          <div>
+            {% for cafe in cafes.items %}
+              <ul class="list-group">
+                <div>
+                    <li class="list-group-item">
+                      <div class="d-inline p-2">
+                        <h5>{{ cafe.id }}. {{ cafe.name }}</h5>
+                        <img src="{{ cafe.img_url }}" alt="" width="360" height="360">
+                      </div>
+                      <div class="d-inline-block px-4">
+                        Location: {{ cafe.location }}<br>
+                        Seating: {{ cafe.seats }}<br>
+                        Cofee Price:  {{ cafe.coffee_price }}<br>
+                        Other Amenities:
+                        <div>
+                          <ul>
+                            <li>Has Sockets: {% if cafe.has_sockets == 1 %}✅{% else %}❌{%endif%}</li>
+                            <li>Has Wifi: {% if cafe.has_wifi == 1 %}✅{% else %}❌{%endif%}</li>
+                            <li>Has toilet: {% if cafe.has_toilet == 1 %}✅{% else %}❌{%endif%}</li>
+                            <li>Can take calls: {% if cafe.can_take_calls == 1 %}✅{% else %}❌{%endif%}</li>
+                          </ul>
+                        </div>
+
+                      </div>
+                  </li>
+                </div>
+
+              </ul>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!--Pagination links-->
+        <div class="text-end">
+          <a href="{{ url_for('index', page=cafes.prev_num) }}" class="btn btn-outline-dark {% if cafes.page == 1 %}disabled{% endif %}">&laquo;</a>
+          <!-- Loop through the number of pages to display a link for each-->
+          {% for page_num in cafes.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+            {% if page_num %}
+              <!-- Check for the active page and set the link to "Active"-->
+              {% if cafes.page == page_num %}
+              <a href="{{ url_for('index', page=page_num) }}"
+                 class="btn btn-dark">
+                  {{ page_num }}
+              </a>
+              {% else %}
+              <a href="{{ url_for('index', page=page_num) }}"
+                 class="btn btn-outline-dark">
+                  {{ page_num }}
+              </a>
+              {% endif %}
+            {% else %}
+            ...
+            {% endif %}
+          {% endfor %}
+
+          <a href="{{ url_for('index', page=cafes.next_num) }}" class="btn btn-outline-dark {% if cafes.page == cafes.pages %}disabled{% endif %}">&raquo;</a>
+
+        </div>
+
+      <p class="text-end mt-3">
+         Showing page {{ cafes.page }} of {{ cafes.pages }}
+      </p>
+
+    {% endblock %}
